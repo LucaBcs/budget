@@ -1,0 +1,166 @@
+MainProjects
+	ListProject
+	ButtonSingle		(Add)
+
+MainProjectSingle
+	HeaderProject 		(projectName)("Main")
+	SingleItemProject
+	ButtonsLeftRight	(Summary)(List)
+
+MainProjectSummary
+	HeaderProject 	(projectName)("Summary")
+	ListProjectSummaryExpenses
+		LoopItemSummaryExpenses
+			1 Icona
+			1 categoria
+			1 percentuale
+			1 cosagrafica (forse componente riutilizzabile)
+
+	ListProjectSummaryIncomings
+		LoopItemSummaryIncomings
+			1 Icona
+			1 categoria
+			1 percentuale
+			1 cosagrafica (forse componente riutilizzabile)
+
+	ButtonsLeftRight	(Expenses)(Incomings)
+
+MainProjectStatements
+	HeaderProject 	(projectName)("Statements")
+
+	ListProjectStatementsExpenses
+		LoopItemStatementExpenses
+			1 Icona
+			1 Categoria
+			1 Descrizione
+			1 Cifra 
+			1 Data
+
+	ListProjectStatementsIncomings
+		LoopItemStatementIncomings
+			1 Icona
+			1 Categoria
+			1 Descrizione
+			1 Cifra 
+			1 Data
+
+	ButtonsLeftRight	(Expenses)(Incomings)
+
+
+------------------------------------------------------------------
+**** FLUSSI DA APP VERSO COMPONENTI E DA COMPONENTI VERSO APP ****
+------------------------------------------------------------------
+
+
+App > projects = {this.state.projects} > MainProjects > {this.props.projects} > ListProject > Loop{this.props.projects} > LoopItemProject
+
+Menu
+
+
+
+
+------------------------------------------------------------------
+**** CODE SNIPPETS ****
+------------------------------------------------------------------
+
+
+
+	export const categories = {
+		food:"www.photoFood.com,
+		"
+	}
+
+	import { categories } from "./categories"
+
+
+
+
+		var toLoopItemProject = {
+		changePage:this.changePage, 
+		projects: this.state.projects
+	}
+
+
+
+componentWillMount(){
+
+	this.state.projects.map((item)=>{
+
+		Projects.insert({...item},(error)=>{
+
+			debugger
+
+		})
+
+	})
+	
+}
+
+
+componentWillMount(){
+
+	var a = Projects.find({}).fetch()
+	debugger
+	
+}
+
+
+render(){
+
+	var currentPage = this.state.currentPage
+	var currentProject = this.state.currentProjectId
+	var pageShown 
+
+	var toMainProjectSingle = {
+					 changePage: this.changePage,
+					 projectId: this.state.currentProjectId,
+					 singleProjectCatcher: this.singleProjectCatcher,
+					 currentProject: this.state.currentProject
+	}
+
+	if (currentPage == "MainProjects"){
+
+		pageShown = <MainProjects
+					 changePage={this.changePage}
+					 projects={this.state.projects}
+					 />
+	} 
+
+	else if (currentPage == "MainProjectSingle"){
+
+		pageShown = <MainProjectSingle
+					{...toMainProjectSingle}
+					 />
+					
+
+	}
+
+	else if (currentPage == "MainProjectStatements"){
+
+		pageShown = <MainProjectStatements/>
+
+	}
+
+	else if (currentPage == "MainProjectSummary"){
+
+		pageShown = <MainProjectSummary/>
+
+	}
+
+	return (
+
+		<div>
+
+		<HomeBar
+		 changePage={this.changePage}
+		/>
+		{pageShown}
+				
+		</div>
+
+		)
+	
+	}
+
+}
+
